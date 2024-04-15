@@ -53,10 +53,15 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
 				<configuration>
 					<source>17</source>
-					<target>11</target>
+					<target>17</target>
+					<jdkToolchain>
+						<version>17</version>
+					</jdkToolchain>
 				</configuration>
 			</plugin>
 		</plugins>
