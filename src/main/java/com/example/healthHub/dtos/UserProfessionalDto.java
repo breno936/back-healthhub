@@ -13,6 +13,7 @@ public record UserProfessionalDto(
         UserProfessionalModel.Sexo gender,
         String crn_cref,
         String job,
-        Double rating
+        Double rating,
+        List<Integer> fk_address
 ) {
 }

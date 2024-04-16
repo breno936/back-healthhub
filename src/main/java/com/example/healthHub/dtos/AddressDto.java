@@ -14,6 +14,7 @@ public record AddressDto(
         String neighborhood,
         String city,
         Integer number,
-        String state
+        String state,
+        List<Integer> fk_professional
 ) {
 }

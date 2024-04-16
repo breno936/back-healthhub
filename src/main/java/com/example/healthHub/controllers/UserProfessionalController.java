@@ -1,6 +1,7 @@
 package com.example.healthHub.controllers;
 
 import com.example.healthHub.dtos.UserProfessionalDto;
+import com.example.healthHub.models.AddressModel;
 import com.example.healthHub.models.UserProfessionalModel;
 import com.example.healthHub.repositories.AddressRepository;
 import com.example.healthHub.repositories.UserProfessionalRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,14 @@ public class UserProfessionalController {
         }
         if(userProfessionalDto.rating() != null){
             newUserProfessional.setRating(userProfessionalDto.rating());
+        }
+        if(userProfessionalDto.fk_address().size() > 0){
+            List<AddressModel> listAddress = new ArrayList<>();
+            for (Integer professionalId :
+                    userProfessionalDto.fk_address()) {
+                listAddress.add(addressRepository.findById(professionalId).get());
+            }
+            newUserProfessional.setFk_address(listAddress);
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userProfessionalRepository.save(newUserProfessional));
@@ -83,6 +93,14 @@ public class UserProfessionalController {
         }
         if(userProfessionalDto.rating() != null){
             updatedUserProfessional.get().setRating(userProfessionalDto.rating());
+        }
+        if(userProfessionalDto.fk_address().size() > 0){
+            List<AddressModel> listAddress = new ArrayList<>();
+            for (Integer professionalId :
+                    userProfessionalDto.fk_address()) {
+                listAddress.add(addressRepository.findById(professionalId).get());
+            }
+            updatedUserProfessional.get().setFk_address(listAddress);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedUserProfessional);

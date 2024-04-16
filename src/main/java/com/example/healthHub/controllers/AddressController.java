@@ -2,12 +2,14 @@ package com.example.healthHub.controllers;
 
 import com.example.healthHub.dtos.AddressDto;
 import com.example.healthHub.models.AddressModel;
+import com.example.healthHub.models.UserProfessionalModel;
 import com.example.healthHub.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +44,14 @@ public class AddressController {
         }
         if(addressDto.street() != null){
             newAddress.setStreet(addressDto.street());
+        }
+        if(addressDto.fk_professional().size() > 0){
+            List<UserProfessionalModel> listProfessional = new ArrayList<>();
+            for (Integer addressId :
+                    addressDto.fk_professional()) {
+                listProfessional.add(userProfessionalRepository.findById(addressId).get());
+            }
+            newAddress.setFk_professional(listProfessional);
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(addressRepository.save(newAddress));
@@ -91,6 +101,14 @@ public class AddressController {
         }
         if(addressDto.street() != null){
             updatedAddress.get().setStreet(addressDto.street());
+        }
+        if(addressDto.fk_professional().size() > 0){
+            List<UserProfessionalModel> listProfessional = new ArrayList<>();
+            for (Integer addressId :
+                    addressDto.fk_professional()) {
+                listProfessional.add(userProfessionalRepository.findById(addressId).get());
+            }
+            updatedAddress.get().setFk_professional(listProfessional);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedAddress);
