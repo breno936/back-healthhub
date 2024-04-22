@@ -14,6 +14,8 @@ public record UserProfessionalDto(
         String crn_cref,
         String job,
         Double rating,
-        List<Integer> fk_address
+        List<Integer> fk_address,
+        String email,
+        String password
 ) {
 }

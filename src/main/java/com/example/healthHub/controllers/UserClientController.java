@@ -1,12 +1,18 @@
 package com.example.healthHub.controllers;
 
 import com.example.healthHub.dtos.UserClientDto;
+import com.example.healthHub.infra.security.TokenService;
 import com.example.healthHub.models.UserClientModel;
 import com.example.healthHub.repositories.AddressRepository;
 import com.example.healthHub.repositories.UserClientRepository;
+import jakarta.validation.Valid;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +24,10 @@ public class UserClientController {
     UserClientRepository userClientRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    TokenService tokenService;
 
     @PostMapping("/userClient")
     public ResponseEntity<Object> saveUserClient(@RequestBody UserClientDto userClientDto){
@@ -55,6 +65,44 @@ public class UserClientController {
 
         return ResponseEntity.status(HttpStatus.OK).body(userClientReturn.get());
     }
+    @PostMapping("/userClient/login")
+    public ResponseEntity<Object> login(@RequestBody @Valid UserClientDto userClientDto){
+      var usernamePassword = new UsernamePasswordAuthenticationToken(userClientDto.email(), userClientDto.password());
+      var auth = authenticationManager.authenticate(usernamePassword);
+
+      var token = tokenService.generateToken((UserClientModel) auth.getPrincipal());
+      return ResponseEntity.status(HttpStatus.OK).body(token);
+    }
+    @PostMapping("userClient/register")
+    public ResponseEntity<Object> register(@RequestBody @Valid UserClientDto userClientDto){
+        if(userClientRepository.findByEmailExists(userClientDto.email()) != null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        String encryptedPassword = new BCryptPasswordEncoder().encode(userClientDto.password());
+        UserClientModel user = new UserClientModel();
+        if(userClientDto.fk_address() != null){
+            user.setFk_address(addressRepository.findById(userClientDto.fk_address()).get());
+        }
+        if(userClientDto.age() != null){
+            user.setAge(userClientDto.age());
+        }
+        if(userClientDto.name() != null){
+            user.setName(userClientDto.name());
+        }
+        if(userClientDto.email() != null){
+            user.setEmail(userClientDto.email());
+        }
+        if(userClientDto.gender() != null){
+            user.setGender(userClientDto.gender());
+        }
+        if(encryptedPassword != null){
+            user.setPassword(encryptedPassword);
+        }
+
+        userClientRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/userClient")
     public ResponseEntity<Object> updateUserClient(@RequestParam("id") int id,
                                               @RequestBody UserClientDto userClientDto)

@@ -2,12 +2,60 @@ package com.example.healthHub.models;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "TB_Professional")
-public class UserProfessionalModel {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
+public class UserProfessionalModel implements UserDetails {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.roles == UserClientModel.Roles.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_CLIENT"), new SimpleGrantedAuthority("ROLE_PROFESSIONAL"));
+        else if(this.roles == UserClientModel.Roles.CLIENT) return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"), new SimpleGrantedAuthority("ROLE_PROFESSIONAL"));
+
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public enum Sexo{
         masculino("masculino"),
         feminino("feminino"),
@@ -17,6 +65,17 @@ public class UserProfessionalModel {
 
         private Sexo(String label) {
             this.sexo = label;
+        }
+    }
+    public enum Roles{
+        ADMIN("ADMIN"),
+        CLIENT("CLIENT"),
+        PROFESSIONAL("PROFESSIONAL");
+
+        public final String role;
+
+        private Roles(String label) {
+            this.role = label;
         }
     }
 
@@ -30,6 +89,10 @@ public class UserProfessionalModel {
     private Double rating;
     @ManyToMany(mappedBy = "fk_professional", fetch = FetchType.EAGER)
     private List<AddressModel> fk_address;
+    private UserClientModel.Roles roles;
+    private String email;
+    private String password;
+
 
     public int getId() {
         return id;
@@ -86,4 +149,25 @@ public class UserProfessionalModel {
     public void setFk_address(List<AddressModel> fk_address) {
         this.fk_address = fk_address;
     }
+
+    public UserClientModel.Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(UserClientModel.Roles roles) {
+        this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

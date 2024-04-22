@@ -9,7 +9,9 @@ public record UserClientDto(
         String name,
         UserClientModel.Sexo gender,
         Integer age,
-        Integer fk_address
+        Integer fk_address,
+        String email,
+        String password
 
 ) {
 }
