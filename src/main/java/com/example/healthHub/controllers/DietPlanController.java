@@ -5,6 +5,7 @@ import com.example.healthHub.models.DietPlanModel;
 import com.example.healthHub.repositories.DietPlanRepository;
 import com.example.healthHub.repositories.UserClientRepository;
 import com.example.healthHub.repositories.UserProfessionalRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 public class DietPlanController {
     @Autowired
     DietPlanRepository dietPlanRepository;

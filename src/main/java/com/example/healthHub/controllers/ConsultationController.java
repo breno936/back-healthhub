@@ -3,6 +3,7 @@ package com.example.healthHub.controllers;
 import com.example.healthHub.dtos.ConsultationDto;
 import com.example.healthHub.models.ConsultationModel;
 import com.example.healthHub.repositories.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 public class ConsultationController {
     @Autowired
     ConsultationRepository consultationRepository;

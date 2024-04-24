@@ -8,6 +8,7 @@ import com.example.healthHub.models.UserClientModel;
 import com.example.healthHub.models.UserProfessionalModel;
 import com.example.healthHub.repositories.AddressRepository;
 import com.example.healthHub.repositories.UserProfessionalRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserProfessionalController {
     @Autowired
     UserProfessionalRepository userProfessionalRepository;
@@ -31,7 +33,6 @@ public class UserProfessionalController {
     private AuthenticationManager authenticationManager;
     @Autowired
     TokenService tokenService;
-
     @PostMapping("/userProfessional")
     public ResponseEntity<Object> saveUserProfessional(@RequestBody UserProfessionalDto userProfessionalDto){
         UserProfessionalModel newUserProfessional = new UserProfessionalModel();

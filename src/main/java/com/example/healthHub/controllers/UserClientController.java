@@ -5,6 +5,7 @@ import com.example.healthHub.infra.security.TokenService;
 import com.example.healthHub.models.UserClientModel;
 import com.example.healthHub.repositories.AddressRepository;
 import com.example.healthHub.repositories.UserClientRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserClientController {
     @Autowired
     UserClientRepository userClientRepository;
