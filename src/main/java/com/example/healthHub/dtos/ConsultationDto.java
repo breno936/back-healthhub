@@ -11,7 +11,7 @@ import java.util.Date;
 
 public record ConsultationDto(
         Integer fk_client,
-        Integer fk_professional,
+        Integer fk_service,
         Integer fk_address,
         boolean isOnline,
         Double price,

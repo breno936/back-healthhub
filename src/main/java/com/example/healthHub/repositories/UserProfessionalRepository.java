@@ -11,8 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface UserProfessionalRepository extends JpaRepository<UserProfessionalModel, Integer> {
     @Query("SELECT t FROM UserProfessionalModel t WHERE t.email = :login")
     UserDetails findByEmail(String login);
-
     @Query("SELECT t FROM UserProfessionalModel t WHERE t.email = :login")
-    UserClientModel findByEmailExists(String login);
+    UserProfessionalModel findByEmailExists(String login);
 
 }

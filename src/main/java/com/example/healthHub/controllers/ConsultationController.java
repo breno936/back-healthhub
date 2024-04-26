@@ -24,7 +24,7 @@ public class ConsultationController {
     @Autowired
     UserClientRepository userClientRepository;
     @Autowired
-    UserProfessionalRepository userProfessionalRepository;
+    ServicesRepository servicesRepository;
     @PostMapping("/consultation")
     public ResponseEntity<Object> saveConsultation(@RequestBody ConsultationDto consultationDto){
         ConsultationModel newConsultation = new ConsultationModel();
@@ -38,17 +38,14 @@ public class ConsultationController {
         if(consultationDto.duration() != null){
             newConsultation.setDuration(consultationDto.duration());
         }
-        if(consultationDto.price() != null){
-            newConsultation.setPrice(consultationDto.price());
-        }
         if(consultationDto.fk_address() != null){
             newConsultation.setFk_address(addressRepository.findById(consultationDto.fk_address()).get());
         }
         if(consultationDto.fk_client() != null){
             newConsultation.setFk_client(userClientRepository.findById(consultationDto.fk_client()).get());
         }
-        if(consultationDto.fk_professional() != null){
-            newConsultation.setFk_professional(userProfessionalRepository.findById(consultationDto.fk_professional()).get());
+        if(consultationDto.fk_service() != null){
+            newConsultation.setFk_service(servicesRepository.findById(consultationDto.fk_service()).get());
         }
         newConsultation.setOnline(consultationDto.isOnline());
 
@@ -91,17 +88,14 @@ public class ConsultationController {
         if(consultationDto.duration() != null){
             updatedConsultation.get().setDuration(consultationDto.duration());
         }
-        if(consultationDto.price() != null){
-            updatedConsultation.get().setPrice(consultationDto.price());
-        }
         if(consultationDto.fk_address() != null){
             updatedConsultation.get().setFk_address(addressRepository.findById(consultationDto.fk_address()).get());
         }
         if(consultationDto.fk_client() != null){
             updatedConsultation.get().setFk_client(userClientRepository.findById(consultationDto.fk_client()).get());
         }
-        if(consultationDto.fk_professional() != null){
-            updatedConsultation.get().setFk_professional(userProfessionalRepository.findById(consultationDto.fk_professional()).get());
+        if(consultationDto.fk_service() != null){
+            updatedConsultation.get().setFk_service(servicesRepository.findById(consultationDto.fk_service()).get());
         }
         updatedConsultation.get().setOnline(consultationDto.isOnline());
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserClientRepository extends JpaRepository<UserClientModel, Integer> {
+    @Query("SELECT t FROM UserClientModel t WHERE t.email = :login")
     UserDetails findByEmail(String login);
     @Query("SELECT t FROM UserClientModel t WHERE t.email = :login")
     UserClientModel findByEmailExists(String login);

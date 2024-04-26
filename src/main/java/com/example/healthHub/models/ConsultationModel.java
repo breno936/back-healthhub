@@ -29,13 +29,12 @@ public class ConsultationModel {
     private UserClientModel fk_client;
 
     @ManyToOne
-    @JoinColumn(name = "fk_professional", referencedColumnName = "id")
-    private UserProfessionalModel fk_professional;
+    @JoinColumn(name = "fk_service", referencedColumnName = "id")
+    private ServicesModel fk_service;
     @ManyToOne
     @JoinColumn(name = "fk_address", referencedColumnName = "id")
     private AddressModel fk_address;
     private boolean isOnline;
-    private Double price;
     private Date date;
     private Status status;
     private Double duration;
@@ -57,12 +56,12 @@ public class ConsultationModel {
         this.fk_client = fk_client;
     }
 
-    public UserProfessionalModel getFk_professional() {
-        return fk_professional;
+    public ServicesModel getFk_service() {
+        return fk_service;
     }
 
-    public void setFk_professional(UserProfessionalModel fk_professional) {
-        this.fk_professional = fk_professional;
+    public void setFk_service(ServicesModel fk_service) {
+        this.fk_service = fk_service;
     }
 
     public boolean isOnline() {
@@ -71,14 +70,6 @@ public class ConsultationModel {
 
     public void setOnline(boolean online) {
         isOnline = online;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public Date getDate() {

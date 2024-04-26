@@ -16,11 +16,12 @@ public class AuthorizationService implements UserDetailsService {
     UserProfessionalRepository userProfessionalRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userProfessionalRepository.findByEmail(username);
+        var user = userClientRepository.findByEmail(username);
         if (user != null) {
-            return userProfessionalRepository.findByEmail(username);
+            return user;
         }else{
-            return userClientRepository.findByEmail(username);
+            user = userProfessionalRepository.findByEmail(username);
+            return user;
         }
     }
 }

@@ -69,8 +69,8 @@ public class UserClientController {
     }
     @PostMapping("/userClient/login")
     public ResponseEntity<Object> login(@RequestBody @Valid UserClientDto userClientDto){
-      var usernamePassword = new UsernamePasswordAuthenticationToken(userClientDto.email(), userClientDto.password());
-      var auth = authenticationManager.authenticate(usernamePassword);
+        var usernamePassword = new UsernamePasswordAuthenticationToken(userClientDto.email(), userClientDto.password());
+      var auth = this.authenticationManager.authenticate(usernamePassword);
 
       var token = tokenService.generateToken((UserClientModel) auth.getPrincipal());
       return ResponseEntity.status(HttpStatus.OK).body(token);

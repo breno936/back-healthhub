@@ -20,8 +20,8 @@ import java.util.List;
 public class UserProfessionalModel implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.roles == UserClientModel.Roles.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_CLIENT"), new SimpleGrantedAuthority("ROLE_PROFESSIONAL"));
-        else if(this.roles == UserClientModel.Roles.CLIENT) return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
+        if(this.roles == UserProfessionalModel.Roles.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_CLIENT"), new SimpleGrantedAuthority("ROLE_PROFESSIONAL"));
+        else if(this.roles == UserProfessionalModel.Roles.CLIENT) return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
         else return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"), new SimpleGrantedAuthority("ROLE_PROFESSIONAL"));
 
     }
@@ -89,7 +89,7 @@ public class UserProfessionalModel implements UserDetails {
     private Double rating;
     @ManyToMany(mappedBy = "fk_professional", fetch = FetchType.EAGER)
     private List<AddressModel> fk_address;
-    private UserClientModel.Roles roles;
+    private UserProfessionalModel.Roles roles;
     private String email;
     private String password;
 
@@ -150,11 +150,11 @@ public class UserProfessionalModel implements UserDetails {
         this.fk_address = fk_address;
     }
 
-    public UserClientModel.Roles getRoles() {
+    public UserProfessionalModel.Roles getRoles() {
         return roles;
     }
 
-    public void setRoles(UserClientModel.Roles roles) {
+    public void setRoles(UserProfessionalModel.Roles roles) {
         this.roles = roles;
     }
 

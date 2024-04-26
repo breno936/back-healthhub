@@ -23,6 +23,8 @@ public class TokenService {
         String token = JWT.create()
                 .withIssuer("health-hub")
                 .withSubject(user.getEmail())
+                .withClaim("email",user.getName())
+                .withClaim("userId", user.getId())
                 .withExpiresAt(getExpirationDate())
                 .sign(algorithm);
         return token;
@@ -36,6 +38,8 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("health-hub")
                     .withSubject(user.getEmail())
+                    .withClaim("email",user.getName())
+                    .withClaim("userId", user.getId())
                     .withExpiresAt(getExpirationDate())
                     .sign(algorithm);
             return token;
